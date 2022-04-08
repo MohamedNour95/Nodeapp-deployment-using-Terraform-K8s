@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+        parameters{ 
+
+          string(name: 'version', defaultValue: '39ab771af3452b29d32afcaec02d331071b71418', description: 'commit number')
+
+        }
+
+    stages {
+        stage('Build') {
+            steps {
+                 sh " git checkout ${params.version}"
+                 sh "docker build --tag=node-app  ."
+            }
+        }
+
+        stage('push with nexus') {
+            steps {
+                 withCredentials([usernamePassword(credentialsId: 'nexus', passwordVariable: 'NEXUS_REGISTRY_PWD', usernameVariable: 'NEXUS_REGISTRY_USER')]) {
+                  sh 'docker login -u=$NEXUS_REGISTRY_USER -p=$NEXUS_REGISTRY_PWD 10.105.233.131:8123'
+                  sh 'docker tag node-app 10.105.233.131:8123/node_project:latest' 
+                  sh "docker push 10.105.233.131:8123/node_project:latest"
+        }
+    }
+  }
+ }
+}

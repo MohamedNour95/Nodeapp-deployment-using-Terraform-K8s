@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  tasks:
+  - name: create Ipservice for node deploymenet
+    shell: /var/kubectl/kubectl apply -f Ipcluster-service.yaml 
+  - name: create node-port-service for node deploymenet
+    shell: /var/kubectl/kubectl apply -f node-port-service.yaml
+  - name: create  node deployment
+    shell: /var/kubectl/kubectl apply -f node-deployment.yaml
+  - name: create configmap for node deployment
+    shell: /var/kubectl/kubectl apply -f configmapfornode.yaml 

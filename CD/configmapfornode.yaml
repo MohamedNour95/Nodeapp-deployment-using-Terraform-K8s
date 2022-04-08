@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-conf
+  namespace: "namespace_value"
+data:
+  mysql_root_password: "AM"
+  mysql_user: "NE"
+  mysql_password: "N3"
+  mysql_database: "DE"
